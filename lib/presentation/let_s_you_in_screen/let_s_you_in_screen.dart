@@ -1,0 +1,19 @@
+import 'controller/let_s_you_in_controller.dart';import 'package:app/core/app_export.dart';import 'package:app/widgets/custom_button.dart';import 'package:flutter/material.dart';import 'package:app/domain/facebookauth/facebook_auth_helper.dart';import 'package:app/domain/googleauth/google_auth_helper.dart';class LetSYouInScreen extends GetWidget<LetSYouInController> {@override Widget build(BuildContext context) { return SafeArea(child: Scaffold(backgroundColor: ColorConstant.gray900, body: Container(width: double.maxFinite, padding: getPadding(left: 24, top: 11, right: 24, bottom: 11), child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [CustomImageView(svgPath: ImageConstant.imgArrowleft, height: getSize(28), width: getSize(28), alignment: Alignment.centerLeft, onTap: () {onTapImgArrowleft();}), Spacer(), Text("lbl_let_s_you_in".tr, overflow: TextOverflow.ellipsis, textAlign: TextAlign.left, style: AppStyle.txtUrbanistBold48), CustomButton(height: getVerticalSize(60), text: "msg_continue_with_facebook".tr, margin: getMargin(top: 90), variant: ButtonVariant.OutlineGray800, shape: ButtonShape.RoundedBorder16, padding: ButtonPadding.PaddingT20, fontStyle: ButtonFontStyle.UrbanistSemiBold16, prefixWidget: Container(margin: getMargin(right: 12), child: CustomImageView(svgPath: ImageConstant.imgFacebook)), onTap: onTapContinuewithfacebook), CustomButton(height: getVerticalSize(60), text: "msg_continue_with_google".tr, margin: getMargin(top: 16), variant: ButtonVariant.OutlineGray800, shape: ButtonShape.RoundedBorder16, padding: ButtonPadding.PaddingT20, fontStyle: ButtonFontStyle.UrbanistSemiBold16, prefixWidget: Container(margin: getMargin(right: 11), child: CustomImageView(svgPath: ImageConstant.imgGoogle)), onTap: onTapContinuewithgoogle), CustomButton(height: getVerticalSize(60), text: "msg_continue_with_apple".tr, margin: getMargin(top: 16), variant: ButtonVariant.OutlineGray800, shape: ButtonShape.RoundedBorder16, padding: ButtonPadding.PaddingT20, fontStyle: ButtonFontStyle.UrbanistSemiBold16, prefixWidget: Container(margin: getMargin(right: 12), child: CustomImageView(svgPath: ImageConstant.imgFrameWhiteA700))), CustomImageView(svgPath: ImageConstant.imgGroup16, height: getVerticalSize(9), width: getHorizontalSize(360), margin: getMargin(top: 58)), CustomButton(height: getVerticalSize(55), text: "msg_sign_in_with_password".tr, margin: getMargin(top: 57), variant: ButtonVariant.OutlineGreenA7003f), Padding(padding: getPadding(top: 100, bottom: 36), child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Padding(padding: getPadding(bottom: 1), child: Text("msg_don_t_have_an_account".tr, overflow: TextOverflow.ellipsis, textAlign: TextAlign.left, style: AppStyle.txtUrbanistRegular14Gray100.copyWith(letterSpacing: getHorizontalSize(0.2)))), Padding(padding: getPadding(left: 8, top: 1), child: Text("lbl_sign_up".tr, overflow: TextOverflow.ellipsis, textAlign: TextAlign.left, style: AppStyle.txtUrbanistSemiBold14.copyWith(letterSpacing: getHorizontalSize(0.2))))]))])))); } 
+onTapImgArrowleft() { Get.back(); } 
+onTapContinuewithfacebook() async  {             await FacebookAuthHelper().facebookSignInProcess().then((facebookUser) {
+              //TODO Actions to be performed after signin
+              }).catchError((onError) {
+              Get.snackbar('Error', onError.toString());
+            });
+             } 
+onTapContinuewithgoogle() async  {         await GoogleAuthHelper().googleSignInProcess().then((googleUser) {
+          if(googleUser!=null){
+            //TODO Actions to be performed after signin
+          } else {
+            Get.snackbar('Error', 'user data is empty');
+          }
+        }).catchError((onError) {
+            Get.snackbar('Error', onError.toString());
+        });
+         } 
+ }
